@@ -1,0 +1,86 @@
+{{template "layout/header" .}}
+{{template "layout/navbar" .}}
+{{template "layout/sidemenu" .}}
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Surver Kepuasan Pelayanan</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="far fa-chart-bar"></i>
+                               {{.Question}}
+                            </h3>
+                        </div>
+
+                        <div class="card-body">
+                            <div id="donut-chart" style="height: 300px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- FLOT CHARTS -->
+<script src="/plugins/flot/jquery.flot.js"></script>
+<!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+<script src="/plugins/flot/plugins/jquery.flot.resize.js"></script>
+<!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+<script src="/plugins/flot/plugins/jquery.flot.pie.js"></script>
+<!-- AdminLTE for demo purposes -->
+<!-- <script src="/dist/js/demo.js"></script> -->
+<script>
+    $(function () {
+        var donutData ={{.dataCart}}
+        $.plot('#donut-chart', donutData, {
+            series: {
+                pie: {
+                    show: true,
+                    radius: 1,
+                    innerRadius: 0.5,
+                    label: {
+                        show: true,
+                        radius: 2 / 3,
+                        formatter: labelFormatter,
+                        threshold: 0.1
+                    }
+
+                }
+            },
+            legend: {
+                show: false
+            }
+        })
+        /*
+         * END DONUT CHART
+         */
+
+    })
+    /*
+     * Custom Label formatter
+     * ----------------------
+     */
+    function labelFormatter(label, series) {
+        return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
+            + label
+            + '<br>'
+            + Math.round(series.percent) + '%</div>'
+    }
+</script>
+{{template "layout/footer" .}}
